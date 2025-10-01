@@ -1,9 +1,15 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "./components/auth/style.css";
+@import "./components/vibrant/style.css";
 
 @custom-variant dark (&:is(.dark *));
 @custom-variant monochrome (&:is(.monochrome *));
 
+/* The @theme inline block handles all the mapping of your custom 
+  CSS variables (e.g., --color-primary) to Tailwind class names (e.g., bg-primary). 
+  This correctly replaces the old tailwind.config.js file functionality.
+*/
 @theme inline {
   --color-mostafij: var(--mostafij);
   --radius-sm: calc(var(--radius) - 4px);

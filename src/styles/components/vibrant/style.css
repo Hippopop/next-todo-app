@@ -1,0 +1,19 @@
+@layer components {
+  .vibrant-btn {
+    @apply font-bold text-white py-3 px-6 rounded-md;
+
+    /* Gradient (using color variables) */
+    background-image: linear-gradient(to right, var(--color-primary) 0%, var(--color-secondary) 100%);
+    transition: all 0.2s ease-in-out;
+    transform: scale(1);
+  }
+  
+  .vibrant-btn:hover {
+    @apply shadow-xl transform scale-[1.05];
+    box-shadow: 0 4px 15px var(--color-primary); 
+  }
+
+  .vibrant-btn:active {
+    @apply transform scale-[0.98];
+  }
+}

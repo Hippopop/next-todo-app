@@ -17,7 +17,7 @@ const ThemeSwitcher = () => {
 
             }}
         >
-            Switch to {$themeOptions[nextThemeIdx]} mode
+            Switch to <span className="text-mostafij"> {$themeOptions[nextThemeIdx].toLocaleUpperCase()} </span>  mode
         </button>
     );
 };
