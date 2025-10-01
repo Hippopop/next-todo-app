@@ -1,10 +1,17 @@
 "use client";
 
+import { Button } from '@/components/ui/shadcn/button';
+import { ROUTES } from '@/lib/constants/paths';
+import { useRouter } from 'next/navigation';
+
 import { useState } from 'react';
 
 export default function LoginPage() {
+    const router = useRouter();
+
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+
 
     return (
         <div className="space-y-6">
@@ -33,16 +40,18 @@ export default function LoginPage() {
                         required
                     />
                 </div>
-                <button type="submit" className="gamey-btn w-full text-primary-foreground font-bold py-3 rounded-[var(--radius-md)] text-lg shadow-lg">
-                    <span className="tracking-wider">Login & Play!</span>
-                </button>
+                <Button className='gamey-btn w-full text-primary-foreground font-bold py-3 rounded-[var(--radius-md)] text-lg shadow-lg'>
+                    Enter Your Quest!
+                </Button>
             </form>
 
             <div className="text-center text-sm">
                 <p className="text-muted-foreground">
                     New adventurer?{' '}
                     <button
-                        onClick={() => { }}
+                        onClick={() => {
+                            router.push(ROUTES.REGISTRATION);
+                        }}
                         className="text-primary hover:text-primary/80 font-semibold transition-colors duration-200"
                         type="button"
                     >
