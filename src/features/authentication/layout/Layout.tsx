@@ -4,6 +4,7 @@ import React, { FC, ReactNode } from 'react';
 import { AuthRootLayoutProps } from '../types/auth_types';
 import { AuthProvider, useAuth } from '../providers/AuthContextProvider';
 import ThemeSwitcher from '@/components/providers/theme/ThemeSwitcher';
+import { Card } from '@/components/ui/shadcn/card';
 
 export const AuthRootLayout: FC<AuthRootLayoutProps> = ({ children }) => {
     const { loading, message, userId } = useAuth();
@@ -13,8 +14,6 @@ export const AuthRootLayout: FC<AuthRootLayoutProps> = ({ children }) => {
             background: 'linear-gradient(135deg, var(--background) 0%, var(--accent) 100%)',
             fontFamily: 'Inter, sans-serif'
         }}>
-
-            {/* Loading Indicator Modal */}
             {loading && (
                 <div className="fixed inset-0 bg-background/80 flex items-center justify-center z-50">
                     <div className="flex flex-col items-center p-6 bg-card rounded-radius-lg shadow-xl text-foreground">
@@ -26,11 +25,7 @@ export const AuthRootLayout: FC<AuthRootLayoutProps> = ({ children }) => {
                     </div>
                 </div>
             )}
-
-            {/* Main Auth Card Container */}
-            <div className="w-full max-w-md bg-card p-8 space-y-6 rounded-radius-xl transition-all duration-300 auth-card">
-
-                {/* Header */}
+            <Card className="w-full max-w-sm auth-card">
                 <div className="text-center">
                     <h1 className="text-5xl font-extrabold text-primary tracking-tighter">
                         <span className="text-mostafij">TODO</span>Quest
@@ -39,14 +34,11 @@ export const AuthRootLayout: FC<AuthRootLayoutProps> = ({ children }) => {
                     <ThemeSwitcher />
                 </div>
 
-                {/* Display Current User ID (for debugging/identification) */}
                 {userId && (
                     <div className="p-2 text-center text-sm font-mono text-secondary-foreground bg-secondary rounded-radius-sm truncate">
                         Signed In: {userId}
                     </div>
                 )}
-
-                {/* Error/Success Message Box */}
                 {message && (
                     <div className={`p-3 rounded-radius-md text-sm font-medium transition-all duration-300 ${message.type === 'error' ? 'bg-destructive/10 text-destructive' :
                         message.type === 'success' ? 'bg-chart-3/10 text-chart-3' :
@@ -55,10 +47,8 @@ export const AuthRootLayout: FC<AuthRootLayoutProps> = ({ children }) => {
                         {message.text}
                     </div>
                 )}
-
-                {/* Placeholder for Routed Content (Login/Register Forms) */}
                 {children}
-            </div>
+            </Card >
         </div>
     );
 };

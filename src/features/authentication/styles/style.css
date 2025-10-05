@@ -1,9 +1,9 @@
 @layer components {
   .auth-card {
-    @apply transition-all duration-300 ease-in-out; 
+    @apply transition-all duration-300 ease-in-out;
     /* Complex, custom CSS logic (glow shadow, custom radius variable) */
     /* Note: We use var(--radius-xl) here because Tailwind cannot generate this specific box-shadow utility */
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2), 0 0 15px var(--color-primary); 
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2), 0 0 15px var(--color-primary);
     border-radius: var(--radius-xl);
   }
 

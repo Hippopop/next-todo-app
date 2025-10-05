@@ -2,5 +2,6 @@
     "cSpell.words": [
         "oklch",
         "shadcn"
-    ]
+    ],
+    "css.lint.unknownAtRules": "ignore"
 }
