@@ -1,19 +1,17 @@
 "use client";
 
 import { Button } from '@/components/ui/shadcn/button';
-import { CardContent, CardFooter } from '@/components/ui/shadcn/card';
 import { Field, FieldDescription, FieldGroup, FieldLabel, FieldSeparator } from '@/components/ui/shadcn/field';
 import { Input } from '@/components/ui/shadcn/input';
-import { Label } from '@/components/ui/shadcn/label';
 import { ROUTES } from '@/lib/constants/paths';
 
 import { useState } from 'react';
 
 export default function RegistrationPage() {
 
-    // const [email, setEmail] = useState<string>('');
-    // const [password, setPassword] = useState<string>('');
-    // const [confirmPassword, setConfirmPassword] = useState<string>('');
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [confirmPassword, setConfirmPassword] = useState<string>('');
 
     return (
         <form className="p-6 md:p-8">
@@ -31,6 +29,8 @@ export default function RegistrationPage() {
                         type="email"
                         placeholder="m@example.com"
                         required
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                     />
                     <FieldDescription>
                         We&apos;ll use this to contact you. We will not share your
@@ -41,13 +41,17 @@ export default function RegistrationPage() {
                     <Field className="grid grid-cols-2 gap-4">
                         <Field>
                             <FieldLabel htmlFor="password">Password</FieldLabel>
-                            <Input id="password" type="password" required />
+                            <Input id="password" type="password" required
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)} />
                         </Field>
                         <Field>
                             <FieldLabel htmlFor="confirm-password">
                                 Confirm Password
                             </FieldLabel>
-                            <Input id="confirm-password" type="password" required />
+                            <Input id="confirm-password" type="password" required
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmPassword(e.target.value)} />
                         </Field>
                     </Field>
                     <FieldDescription>
@@ -90,7 +94,7 @@ export default function RegistrationPage() {
                     </Button>
                 </Field>
                 <FieldDescription className="text-center">
-                    Already have an account? <a href="#">Sign in</a>
+                    Already have an account? <a href={ROUTES.LOGIN}>Sign in</a>
                 </FieldDescription>
             </FieldGroup>
         </form>

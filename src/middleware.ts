@@ -8,10 +8,11 @@ export function middleware(request: NextRequest) {
     const authenticationOptions = [ROUTES.LOGIN, ROUTES.REGISTRATION];
 
     if (!authenticationOptions.some((path) => currentPath.startsWith(path))) {
+        console.log('Protected route! <Authentication>');
         return guardAuthentication(request);
     }
 };
 
 export const config = {
-    matcher: ['/((?!_next|static|favicon.ico).*)'],
+    matcher: ['/((?!api|_next/static|_next/image|favicon.ico|images|login).*)'],
 };

@@ -22,4 +22,5 @@ export interface AuthProviderProps {
 /** Properties for the top-level visual layout component (if used). */
 export interface AuthRootLayoutProps {
     children: React.ReactNode;
+    image: React.ReactNode;
 }
