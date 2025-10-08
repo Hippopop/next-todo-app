@@ -1,3 +1,3 @@
-import LoginImage from "@/features/authentication/login/views/LoginImage";
+import LoginImage from "@/features/authentication/login/components/LoginImage";
 
 export default LoginImage;

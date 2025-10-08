@@ -3,22 +3,26 @@
 import { Button } from '@/components/ui/shadcn/button';
 import { ROUTES } from '@/lib/constants/paths';
 import { Input } from "@/components/ui/shadcn/input"
-
-import { useState } from 'react';
 import { Field, FieldDescription, FieldGroup, FieldLabel, FieldSeparator } from '@/components/ui/shadcn/field';
 
-export default function LoginPage() {
+import { STRINGS } from '@/lib/constants/strings';
+import { LoginFormSchema, LoginFormState } from '../schemas/login_form_state';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 
-    const [email, setEmail] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
+export default function LoginForm() {
+    const { register, handleSubmit, formState: { errors } } = useForm<LoginFormState>(
+        { resolver: zodResolver(LoginFormSchema) }
+    );
+    const onSubmit: SubmitHandler<LoginFormState> = (data) => console.log(data);
 
     return (
-        <form >
+        <form onSubmit={handleSubmit(onSubmit)}>
             <FieldGroup>
                 <div className="flex flex-col items-center gap-2 text-center">
                     <h1 className="text-2xl font-bold">Welcome back</h1>
                     <p className="text-muted-foreground text-balance">
-                        Login to your Acme Inc account
+                        Login to your {STRINGS.APP_NAME} account
                     </p>
                 </div>
                 <Field>
@@ -27,10 +31,11 @@ export default function LoginPage() {
                         id="email"
                         type="email"
                         placeholder="m@example.com"
-                        required
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        {...register("email")}
                     />
+                    {errors.email?.message && <FieldDescription className="text-destructive">
+                        {<span>{errors.email.message}</span>}
+                    </FieldDescription>}
                 </Field>
                 <Field>
                     <div className="flex items-center">
@@ -42,8 +47,14 @@ export default function LoginPage() {
                             Forgot your password?
                         </a>
                     </div>
-                    <Input id="password" type="password" required value={password}
-                        onChange={(e) => setPassword(e.target.value)} />
+                    <Input
+                        id="password"
+                        type="password"
+                        {...register("password")}
+                    />
+                    {errors.password?.message && <FieldDescription className="text-destructive">
+                        {<span>{errors.password.message}</span>}
+                    </FieldDescription>}
                 </Field>
                 <Field>
                     <Button type="submit">Login</Button>

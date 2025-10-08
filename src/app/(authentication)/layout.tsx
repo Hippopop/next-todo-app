@@ -1,4 +1,4 @@
-import AuthRootLayoutWithProvider from "@/features/authentication/layout/Layout";
+import AuthRootLayoutWithProvider from "@/features/authentication/layout/AuthenticationLayout";
 
 import React from 'react'
 

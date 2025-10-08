@@ -1,3 +1,3 @@
-import RegistrationImage from "@/features/authentication/registration/views/RegistrationImage";
+import RegistrationImage from "@/features/authentication/registration/components/RegistrationImage";
 
 export default RegistrationImage;

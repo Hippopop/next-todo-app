@@ -12,9 +12,6 @@ const ThemeSwitcher = () => {
         <button
             onClick={() => {
                 setTheme($themeOptions[nextThemeIdx]);
-                console.log(nextThemeIdx);
-                console.log($themeOptions[nextThemeIdx]);
-
             }}
         >
             Switch to <span className="text-mostafij"> {$themeOptions[nextThemeIdx].toLocaleUpperCase()} </span>  mode

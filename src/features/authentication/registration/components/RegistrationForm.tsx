@@ -4,17 +4,17 @@ import { Button } from '@/components/ui/shadcn/button';
 import { Field, FieldDescription, FieldGroup, FieldLabel, FieldSeparator } from '@/components/ui/shadcn/field';
 import { Input } from '@/components/ui/shadcn/input';
 import { ROUTES } from '@/lib/constants/paths';
+import { useForm } from 'react-hook-form';
+import { RegistrationFormSchema, RegistrationFormState } from '../schemas/registration_form_state';
+import { zodResolver } from '@hookform/resolvers/zod';
 
-import { useState } from 'react';
-
-export default function RegistrationPage() {
-
-    const [email, setEmail] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
-    const [confirmPassword, setConfirmPassword] = useState<string>('');
-
+export default function RegistrationForm() {
+    const { register, handleSubmit, formState: { errors } } = useForm<RegistrationFormState>(
+        { resolver: zodResolver(RegistrationFormSchema) }
+    );
+    const onSubmit = (data: RegistrationFormState) => console.log(data);
     return (
-        <form className="p-6 md:p-8">
+        <form className="p-6 md:p-8" onSubmit={handleSubmit(onSubmit)}>
             <FieldGroup>
                 <div className="flex flex-col items-center gap-2 text-center">
                     <h1 className="text-2xl font-bold">Create your account</h1>
@@ -28,35 +28,56 @@ export default function RegistrationPage() {
                         id="email"
                         type="email"
                         placeholder="m@example.com"
-                        required
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        {...register("email")}
                     />
-                    <FieldDescription>
-                        We&apos;ll use this to contact you. We will not share your
-                        email with anyone else.
-                    </FieldDescription>
+                    {errors.email?.message ?
+                        <FieldDescription className="text-destructive">
+                            {<span>{errors.email.message}</span>}
+                        </FieldDescription>
+                        :
+                        <FieldDescription>
+                            We&apos;ll use this to contact you. We will not share your
+                            email with anyone else.
+                        </FieldDescription>
+                    }
                 </Field>
                 <Field>
                     <Field className="grid grid-cols-2 gap-4">
                         <Field>
                             <FieldLabel htmlFor="password">Password</FieldLabel>
-                            <Input id="password" type="password" required
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)} />
+                            <Input id="password" type="password"
+                                {...register("password")}
+                            />
+                            {errors.password?.message &&
+                                <FieldDescription className="text-destructive">
+                                    {<span>{errors.password.message}</span>}
+                                </FieldDescription>
+                            }
                         </Field>
                         <Field>
                             <FieldLabel htmlFor="confirm-password">
                                 Confirm Password
                             </FieldLabel>
-                            <Input id="confirm-password" type="password" required
-                                value={confirmPassword}
-                                onChange={(e) => setConfirmPassword(e.target.value)} />
+                            <Input id="confirm-password" type="password"
+                                {...register("confirmPassword")}
+                            />
+                            {errors.confirmPassword?.message &&
+                                <FieldDescription className="text-destructive">
+                                    {<span>{errors.confirmPassword.message}</span>}
+                                </FieldDescription>
+                            }
                         </Field>
                     </Field>
-                    <FieldDescription>
-                        Must be at least 8 characters long.
-                    </FieldDescription>
+                    {errors.root?.message ?
+                        <FieldDescription className="text-destructive">
+                            {<span>{errors.root.message}</span>}
+                        </FieldDescription>
+                        :
+                        <FieldDescription>
+                            Must be at least 8 characters long.
+                        </FieldDescription>
+                    }
+
                 </Field>
                 <Field>
                     <Button type="submit">Create Account</Button>
