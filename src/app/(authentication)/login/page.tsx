@@ -1,3 +1,3 @@
-import LoginForm from "@/features/authentication/login/components/LoginForm";
+import LoginForm from "@/features/authentication/views/login/components/LoginForm";
 
 export default LoginForm;

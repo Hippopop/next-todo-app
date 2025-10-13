@@ -1,8 +1,6 @@
-import { Card, CardContent } from '@/components/ui/shadcn/card';
-import { FieldDescription } from '@/components/ui/shadcn/field';
-import { GalleryVerticalEnd } from 'lucide-react';
-import { ROUTES } from '@/lib/constants/paths';
-import { STRINGS } from '@/lib/constants/strings';
+import { Card, CardContent } from '@/components/shadcn/card';
+import { FieldDescription } from '@/components/shadcn/field';
+import TopNavigationBar from '@/components/custom/TopNavigationBar';
 
 interface AuthRootLayoutProps {
     children: React.ReactNode;
@@ -12,14 +10,7 @@ interface AuthRootLayoutProps {
 export default function AuthRootLayout({ children, image }: AuthRootLayoutProps) {
     return (
         <div>
-            <div className="fixed top-0 left-0 w-full z-10 flex justify-center gap-2 md:justify-start p-3 md:p-5">
-                <a href={ROUTES.HOME} className="flex items-center gap-2 font-medium">
-                    <div className="bg-primary text-primary-foreground flex size-6 items-center justify-center rounded-md">
-                        <GalleryVerticalEnd className="size-4" />
-                    </div>
-                    {STRINGS.APP_NAME}.
-                </a>
-            </div>
+            <TopNavigationBar />
             <div className="absolute top-0 left-0 w-full h-full bg-muted flex min-h-svh flex-col items-center justify-center p-6 md:p-10">
                 <div className="w-full max-w-sm md:max-w-4xl">
                     <div className={"flex flex-col gap-6"}>

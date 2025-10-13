@@ -1,10 +1,3 @@
-import React from 'react'
-import HeroSection from '../components/ui/page/root/hero'
+import HomePage from "@/features/root/views/home/components/HomePage";
 
-export default function Homepage() {
-    return (
-        <div className='flex flex-col items-center justify-center min-h-screen'>
-            <HeroSection />
-        </div>
-    )
-}
+export default HomePage;

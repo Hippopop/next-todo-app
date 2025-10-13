@@ -1,25 +1,28 @@
 "use client";
 
-import { Button } from '@/components/ui/shadcn/button';
-import { Field, FieldDescription, FieldGroup, FieldLabel, FieldSeparator } from '@/components/ui/shadcn/field';
-import { Input } from '@/components/ui/shadcn/input';
+import { Button } from '@/components/shadcn/button';
 import { ROUTES } from '@/lib/constants/paths';
-import { useForm } from 'react-hook-form';
-import { RegistrationFormSchema, RegistrationFormState } from '../schemas/registration_form_state';
+import { Input } from "@/components/shadcn/input"
+import { Field, FieldDescription, FieldGroup, FieldLabel, FieldSeparator } from '@/components/shadcn/field';
+
+import { STRINGS } from '@/lib/constants/strings';
+import { LoginFormSchema, LoginFormState } from '../schemas/login_form_state';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-export default function RegistrationForm() {
-    const { register, handleSubmit, formState: { errors } } = useForm<RegistrationFormState>(
-        { resolver: zodResolver(RegistrationFormSchema) }
+export default function LoginForm() {
+    const { register, handleSubmit, formState: { errors } } = useForm<LoginFormState>(
+        { resolver: zodResolver(LoginFormSchema) }
     );
-    const onSubmit = (data: RegistrationFormState) => console.log(data);
+    const onSubmit: SubmitHandler<LoginFormState> = (data) => console.log(data);
+
     return (
-        <form className="p-6 md:p-8" onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
             <FieldGroup>
                 <div className="flex flex-col items-center gap-2 text-center">
-                    <h1 className="text-2xl font-bold">Create your account</h1>
-                    <p className="text-muted-foreground text-sm text-balance">
-                        Enter your email below to create your account
+                    <h1 className="text-2xl font-bold">Welcome back</h1>
+                    <p className="text-muted-foreground text-balance">
+                        Login to your {STRINGS.APP_NAME} account
                     </p>
                 </div>
                 <Field>
@@ -30,57 +33,31 @@ export default function RegistrationForm() {
                         placeholder="m@example.com"
                         {...register("email")}
                     />
-                    {errors.email?.message ?
-                        <FieldDescription className="text-destructive">
-                            {<span>{errors.email.message}</span>}
-                        </FieldDescription>
-                        :
-                        <FieldDescription>
-                            We&apos;ll use this to contact you. We will not share your
-                            email with anyone else.
-                        </FieldDescription>
-                    }
+                    {errors.email?.message && <FieldDescription className="text-destructive">
+                        {<span>{errors.email.message}</span>}
+                    </FieldDescription>}
                 </Field>
                 <Field>
-                    <Field className="grid grid-cols-2 gap-4">
-                        <Field>
-                            <FieldLabel htmlFor="password">Password</FieldLabel>
-                            <Input id="password" type="password"
-                                {...register("password")}
-                            />
-                            {errors.password?.message &&
-                                <FieldDescription className="text-destructive">
-                                    {<span>{errors.password.message}</span>}
-                                </FieldDescription>
-                            }
-                        </Field>
-                        <Field>
-                            <FieldLabel htmlFor="confirm-password">
-                                Confirm Password
-                            </FieldLabel>
-                            <Input id="confirm-password" type="password"
-                                {...register("confirmPassword")}
-                            />
-                            {errors.confirmPassword?.message &&
-                                <FieldDescription className="text-destructive">
-                                    {<span>{errors.confirmPassword.message}</span>}
-                                </FieldDescription>
-                            }
-                        </Field>
-                    </Field>
-                    {errors.root?.message ?
-                        <FieldDescription className="text-destructive">
-                            {<span>{errors.root.message}</span>}
-                        </FieldDescription>
-                        :
-                        <FieldDescription>
-                            Must be at least 8 characters long.
-                        </FieldDescription>
-                    }
-
+                    <div className="flex items-center">
+                        <FieldLabel htmlFor="password">Password</FieldLabel>
+                        <a
+                            href="#"
+                            className="ml-auto text-sm underline-offset-2 hover:underline"
+                        >
+                            Forgot your password?
+                        </a>
+                    </div>
+                    <Input
+                        id="password"
+                        type="password"
+                        {...register("password")}
+                    />
+                    {errors.password?.message && <FieldDescription className="text-destructive">
+                        {<span>{errors.password.message}</span>}
+                    </FieldDescription>}
                 </Field>
                 <Field>
-                    <Button type="submit">Create Account</Button>
+                    <Button type="submit">Login</Button>
                 </Field>
                 <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">
                     Or continue with
@@ -93,7 +70,7 @@ export default function RegistrationForm() {
                                 fill="currentColor"
                             />
                         </svg>
-                        <span className="sr-only">Sign up with Apple</span>
+                        <span className="sr-only">Login with Apple</span>
                     </Button>
                     <Button variant="outline" type="button">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -102,7 +79,7 @@ export default function RegistrationForm() {
                                 fill="currentColor"
                             />
                         </svg>
-                        <span className="sr-only">Sign up with Google</span>
+                        <span className="sr-only">Login with Google</span>
                     </Button>
                     <Button variant="outline" type="button">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -111,11 +88,11 @@ export default function RegistrationForm() {
                                 fill="currentColor"
                             />
                         </svg>
-                        <span className="sr-only">Sign up with Meta</span>
+                        <span className="sr-only">Login with Meta</span>
                     </Button>
                 </Field>
                 <FieldDescription className="text-center">
-                    Already have an account? <a href={ROUTES.LOGIN}>Sign in</a>
+                    Don&apos;t have an account? <a href={ROUTES.REGISTRATION}>Sign up</a>
                 </FieldDescription>
             </FieldGroup>
         </form>
