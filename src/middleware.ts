@@ -1,16 +1,15 @@
-import type { NextRequest } from "next/server"
-
-import { ROUTES } from "@/lib/constants/paths";
+import { NextResponse, type NextRequest } from "next/server"
 import { guardAuthentication } from "@/lib/middlewares/authentication"
 
+type MiddleWareFunction = (request: NextRequest) => NextResponse | undefined;
 export function middleware(request: NextRequest) {
-    const currentPath = request.nextUrl.pathname;
-    const authenticationOptions = [ROUTES.LOGIN, ROUTES.REGISTRATION];
+    const functions: MiddleWareFunction[] = [guardAuthentication];
 
-    if (!authenticationOptions.some((path) => currentPath.startsWith(path))) {
-        console.log('Protected route! <Authentication>');
-        return guardAuthentication(request);
+    for (const checker of functions) {
+        const status = checker(request);
+        if (status) return status;
     }
+    return NextResponse.next();
 };
 
 export const config = {
