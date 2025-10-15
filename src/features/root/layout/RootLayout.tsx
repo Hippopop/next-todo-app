@@ -1,4 +1,5 @@
 import ThemeProvider from "@/components/providers/theme/ThemeProvider"
+import ReduxStoreProvider from "@/lib/redux/StoreProvider"
 
 export default function RootLayout({
     children,
@@ -8,9 +9,9 @@ export default function RootLayout({
     return (
         <html suppressHydrationWarning lang="en">
             <body>
-                <ThemeProvider>
-                    {children}
-                </ThemeProvider>
+                <ReduxStoreProvider>
+                    <ThemeProvider> {children} </ThemeProvider>
+                </ReduxStoreProvider>
             </body>
         </html>
     )

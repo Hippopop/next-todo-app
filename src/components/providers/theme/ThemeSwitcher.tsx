@@ -24,15 +24,13 @@ const ThemeSwitcher = () => {
                 <DropdownMenuLabel>Choose Theme</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuRadioGroup value={theme} onValueChange={setTheme}>
-                    {
-                        $themeOptions.map(option =>
-                        (
-                            <DropdownMenuRadioItem key={option} value={option}>
-                                {option.toUpperCase()}
-                            </DropdownMenuRadioItem>
-                        )
-                        )
-                    }
+                    {$themeOptions.map(option =>
+                    (
+                        <DropdownMenuRadioItem key={option} value={option}>
+                            {option.charAt(0).toUpperCase() + option.slice(1)}
+                        </DropdownMenuRadioItem>
+                    )
+                    )}
                 </DropdownMenuRadioGroup>
             </DropdownMenuContent>
         </DropdownMenu>

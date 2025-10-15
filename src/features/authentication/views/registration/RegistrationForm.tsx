@@ -5,7 +5,7 @@ import { Field, FieldDescription, FieldGroup, FieldLabel, FieldSeparator } from 
 import { Input } from '@/components/shadcn/input';
 import { ROUTES } from '@/lib/constants/paths';
 import { useForm } from 'react-hook-form';
-import { RegistrationFormSchema, RegistrationFormState } from '../schemas/registration_form_state';
+import { RegistrationFormSchema, RegistrationFormState } from '../../schemas/registration_form_state';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 export default function RegistrationForm() {

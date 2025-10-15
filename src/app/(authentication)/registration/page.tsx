@@ -1,3 +1,3 @@
-import RegistrationForm from "@/features/authentication/views/registration/components/RegistrationForm";
+import RegistrationForm from "@/features/authentication/views/registration/RegistrationForm";
 
 export default RegistrationForm;

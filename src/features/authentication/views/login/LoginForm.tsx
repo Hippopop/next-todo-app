@@ -6,15 +6,21 @@ import { Input } from "@/components/shadcn/input"
 import { Field, FieldDescription, FieldGroup, FieldLabel, FieldSeparator } from '@/components/shadcn/field';
 
 import { STRINGS } from '@/lib/constants/strings';
-import { LoginFormSchema, LoginFormState } from '../schemas/login_form_state';
+import { LoginFormSchema, LoginFormState } from '../../schemas/login_form_state';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useAppDispatch } from '@/lib/redux/hooks';
+
+import { login } from '../../state/authentication_slice';
 
 export default function LoginForm() {
+    const dispatch = useAppDispatch();
     const { register, handleSubmit, formState: { errors } } = useForm<LoginFormState>(
         { resolver: zodResolver(LoginFormSchema) }
     );
-    const onSubmit: SubmitHandler<LoginFormState> = (data) => console.log(data);
+    const onSubmit: SubmitHandler<LoginFormState> = (data) => {
+        dispatch(login(data))
+    };
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
