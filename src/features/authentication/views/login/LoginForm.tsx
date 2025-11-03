@@ -10,17 +10,52 @@ import { LoginFormSchema, LoginFormState } from '../../schemas/login_form_state'
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAppDispatch } from '@/lib/redux/hooks';
+import { useLoginMutation } from '../../state/authentication_slice';
+import { setAppTokenState, setAppUserState } from '@/lib/redux/services/authentication/authenticationService';
+import { useEffect } from 'react';
+import { convertAPIError } from '@/lib/api/baseQuery';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
+import { useSetCookieMutation } from '@/lib/redux/services/cookies/cookieService';
+import { COOKIE_KEYS } from '@/lib/constants/cookie_keys';
 
-import { login } from '../../state/authentication_slice';
 
 export default function LoginForm() {
-    const dispatch = useAppDispatch();
     const { register, handleSubmit, formState: { errors } } = useForm<LoginFormState>(
         { resolver: zodResolver(LoginFormSchema) }
     );
-    const onSubmit: SubmitHandler<LoginFormState> = (data) => {
-        dispatch(login(data))
+
+    const router = useRouter();
+    const dispatch = useAppDispatch();
+    const [login, { isLoading, error }] = useLoginMutation();
+    const [setCookie, { isLoading: cookieLoading, error: cookieError }] = useSetCookieMutation();
+    const onSubmit: SubmitHandler<LoginFormState> = async (formState) => {
+        const { data } = await login(formState);
+        console.log("[RESPONSE] : ", data);
+        if (data?.data?.user && data.data?.token) {
+            console.log("[LOGIN_RESPONSE] : ", data);
+            const cookieResponse = await setCookie({
+                key: COOKIE_KEYS.ACCESS_TOKEN, value: data.data!.token!.token, options: {
+                    path: '/',
+                    httpOnly: true,
+                    maxAge: 60 * 60 * 24 * 7,
+                }
+            });
+
+            if (cookieResponse.error) return;
+            dispatch(setAppUserState(data.data.user));
+            dispatch(setAppTokenState(data.data.token));
+            router.push(ROUTES.HOME);
+        }
+        console.log("[CHECK] : ", data);
     };
+
+    useEffect(() => {
+        if (error || cookieError) {
+            const { codes, description } = convertAPIError(error ?? cookieError!);
+            toast.error("Login request response!", { description: `(${codes}) : ${description}` });
+        }
+    }, [error, cookieError]);
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -63,7 +98,7 @@ export default function LoginForm() {
                     </FieldDescription>}
                 </Field>
                 <Field>
-                    <Button type="submit">Login</Button>
+                    {(isLoading || cookieLoading) ? <p> Loading</p> : <Button type="submit">Login</Button>}
                 </Field>
                 <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">
                     Or continue with

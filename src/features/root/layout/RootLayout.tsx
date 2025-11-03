@@ -1,5 +1,6 @@
 import ThemeProvider from "@/components/providers/theme/ThemeProvider"
 import ReduxStoreProvider from "@/lib/redux/StoreProvider"
+import { Toaster } from "sonner"
 
 export default function RootLayout({
     children,
@@ -10,8 +11,11 @@ export default function RootLayout({
         <html suppressHydrationWarning lang="en">
             <body>
                 <ReduxStoreProvider>
-                    <ThemeProvider> {children} </ThemeProvider>
+                    <ThemeProvider>
+                        {children}
+                    </ThemeProvider>
                 </ReduxStoreProvider>
+                <Toaster />
             </body>
         </html>
     )

@@ -16,12 +16,11 @@ export const UserSchema = z.object({
     name: z.string().min(3, "Username must be at least 3 characters long.").optional().nullable(),
 });
 
-export const AuthResponseSchema = z.object({
-    user: UserSchema.required(),
-    token: AuthTokenSchema.required(),
-}).required();
+export const AuthStateSchema = z.object({
+    user: UserSchema.nullish(), token: AuthTokenSchema.nullish()
+});
 
 
-export type AuthToken = z.infer<typeof AuthTokenSchema>;
+export type AuthTokenType = z.infer<typeof AuthTokenSchema>;
 export type UserType = z.infer<typeof UserSchema>;
-export type AuthResponseType = z.infer<typeof AuthResponseSchema>;
+export type AuthStateType = z.infer<typeof AuthStateSchema>;

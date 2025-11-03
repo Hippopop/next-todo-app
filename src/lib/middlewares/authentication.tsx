@@ -12,6 +12,6 @@ export function guardAuthentication(request: NextRequest): NextResponse | undefi
 
     const hasUser = tokenCookie?.value /* || true */;
     const onAuthentication = authenticationOptions.some((path) => currentPath.startsWith(path));
-    if (!hasUser && !onAuthentication) return NextResponse.redirect(new URL(ROUTES.LOGIN, request.url));
-    if (hasUser && onAuthentication) return NextResponse.redirect(new URL(ROUTES.HOME, request.url));
+    if (!hasUser && !onAuthentication) { console.log("[AUTH_GUARD] : Returning to Login."); return NextResponse.redirect(new URL(ROUTES.LOGIN, request.url)); }
+    if (hasUser && onAuthentication) { console.log("[AUTH_GUARD] : Returning to Home."); return NextResponse.redirect(new URL(ROUTES.HOME, request.url)); }
 }
