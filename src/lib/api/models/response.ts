@@ -1,12 +1,23 @@
-import z from "zod";
+import z, { ZodType } from "zod";
 import { SimpleErrorSchema } from "./error";
+import { AxiosRequestConfig } from "axios";
 
-export const ResponseWrapperSchema = <T extends z.ZodTypeAny>(dataSchema?: T) =>
+export type BaseQueryArgs = {
+    url: string;
+    data?: AxiosRequestConfig['data'];
+    method?: AxiosRequestConfig['method'];
+    params?: AxiosRequestConfig['params'];
+    headers?: AxiosRequestConfig['headers'];
+    responseSchema: ZodType;
+};
+
+export const ResponseWrapperSchema = <T extends z.ZodType>(dataSchema?: T) =>
     z.object({
         status: z.number().int().gt(99).lt(600),
         msg: z.string(),
         error: z.array(SimpleErrorSchema).nullish(),
-        data: dataSchema ?? z.object({}).nullish(),
-    }).strict();
+        data: (dataSchema) ? dataSchema : z.object({}).nullish(),
+    });
 
-// export type ResponseWrapperType<T extends z.ZodTypeAny> = z.infer<ReturnType<typeof ResponseWrapperSchema<T>>>;
+export const ResponseErrorSchema = ResponseWrapperSchema().omit({ data: true }).extend({ error: ResponseWrapperSchema().shape.error.unwrap().unwrap() });
+export type ResponseErrorType = z.infer<typeof ResponseErrorSchema>;
